@@ -4,6 +4,7 @@ const cookieSession = require("cookie-session");
 const passport =require("passport");
 const bodyParser = require('body-parser');
 require("./models/User");
+
 require("./services/passport");
 
 mongoose.connect("mongodb://admin:admin@ds233208.mlab.com:33208/votingapp")

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
-import './App.css';
+
 import axios from 'axios';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 

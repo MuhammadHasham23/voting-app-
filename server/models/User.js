@@ -1,11 +1,11 @@
 const mongoose = require("mongoose");
 const {Schema} = mongoose;
-const polls = require('./Polls');
-const User = new mongoose.Schema({
+var ObjectId = require('mongodb').ObjectID;
+const User = new Schema({
   twitterId: String,
   polls:[{
-    type: Schema.Types.ObjectId,
-    ref: 'polls'
+    name: String,
+    options: [{name:String,count:Number}]
   }]
 });
 

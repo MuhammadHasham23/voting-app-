@@ -1,34 +1,31 @@
 const mongoose = require("mongoose");
 const User = mongoose.model("users");
-const Options = mongoose.model("options")
+
 var ObjectId = require('mongodb').ObjectID;
+
 module.exports = app =>{
-  app.get('/',(req,res)=>{
-      res.send(req.user);
+  app.get('/results',(req,res)=>{
+    User.find({},(error,result)=> res.send(result));
   });
+
   app.post('/newpoll',(req,res)=>{
-    User.find({"_id":req.user.id},(err,result)=>{
-      result[0].polls.push({name: req.body.title,options: []});
-      result.save();
-    });
-    // const options = req.body.options;
-    //  const poll = {
-    //    _id:"2",
-    //    name: req.body.title,
-    //    options: options
-    //  };
-    //  User.findOne({_id: req.user.id},(err,result)=>{
-    //    User.findByIdAndUpdate(
-    //      result,
-    //      {$push: {polls:poll}},
-    //      {safe:true,upsert:true},
-    //      (err,model)=>{
-    //        console.log(err);
-    //
-    //      }
-    //    );
-    //  });
-    res.send('new poll');
+    const options = req.body.options;
+     const poll = {
+       name: req.body.title,
+       options: options
+     };
+     User.findOne({_id: req.user.id},(err,result)=>{
+       User.findByIdAndUpdate(
+         result,
+         {$push: {polls:poll}},
+         {safe:true,upsert:true},
+         (err,model)=>{
+           console.log(err);
+
+         }
+       );
+     });
+    res.send(req.user.id);
   });
 
   app.get('/mypolls',(req,res)=>{
@@ -44,20 +41,8 @@ module.exports = app =>{
 });
 
   app.post('/addoption',(req,res)=>{
-    // User.update({_id:req.user.id},{$push: {"polls.0.options":{name:"WOW IT WORKED",count:0}}},(err,result)=>{
-    //   console.log(result);
-    //   res.send(result);
-    //   console.log(err);
-    // });
-
-    User.find({"polls._id":"2"},(err,result)=>{
-      console.log(result);
+    User.update({"polls._id":"5a846d9e71094c2cac949b74"},{ $push: { "polls.0.options": {"name": "what do you like",count: 0} } },(err,result)=>{
+      res.send(result)
     });
-    // User.find({"polls.id":"2"},{polls:{$elemMatch: {_id:"2"}}},(err,result)=>{
-    //   console.log(result[0]);
-    //   res.send(result[0].polls);
-    // });
-
   });
-
 };
