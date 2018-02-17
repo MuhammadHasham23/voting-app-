@@ -28,8 +28,6 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-
-
         <button onClick={()=> this.submitPoll()}>Submit</button>
         <button onClick={()=> this.deletePoll()}>Delete Poll</button>
         <button onClick={()=> this.addoption()}>Add An Option</button>
