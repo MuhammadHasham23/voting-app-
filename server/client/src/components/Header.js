@@ -6,16 +6,22 @@ class Header extends Component{
     super();
     this.state = {auth:false};
   }
-  componentWillMount(){
+  componentDidMount(){
     axios.get("/verifyuser").then((response)=>{
-      this.setState({auth:response});
       console.log(response);
+      this.setState({auth:response.data});
     });
   }
   logout(){
     axios.get('/logout').then((response)=>{
       alert("You have been logged out")
     });
+  }
+  checkAuth(){
+    if(this.state.auth == true){
+      return <Link className="nav-link" onClick={()=>this.logout()}>Sign Out</Link>
+    }
+      return <Link className="nav-link" href="http://localhost:5000/auth/twitter">Sign In</Link>
   }
   render(){
     console.log(this.state.auth);
@@ -34,8 +40,7 @@ class Header extends Component{
                         <Link className="nav-link" to="/makepoll">New Poll</Link>
                     </li>
                     <li className="nav-item">
-                        {!this.state.auth ? <Link className="nav-link" href="http://localhost:5000/auth/twitter">Sign In</Link>
-                        :<Link className="nav-link" onClick={()=>this.logout()}>Sign Out</Link>}
+                        {this.checkAuth()}
                     </li>
                 </ul>
             </div>
